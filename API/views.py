@@ -91,12 +91,12 @@ def group_list_pp(request):
 
 # Groups route ex
 def group_list_ex(request):
-    course_ex_group = Student.objects.filter(course_enrolled='Excel').values('group').distinct()
+    course_ex_group = Student.objects.filter(courses_enrolled=2).values('group').distinct()
     
     course_ex_data = []
 
     for group in course_ex_group:
-        students = Student.objects.filter(course_enrolled='Excel', group=group['group'])
+        students = Student.objects.filter(courses_enrolled=2, group=group['group'])
         course_ex_data.append({
             'group': group['group'],
             'students': students
@@ -114,10 +114,31 @@ def students_list_pp_a(request):
 
 def students_list_pp_b(request):
     course_id = 1  # Adjust the course ID as needed
-    course_pp_data = Student.objects.filter(courses_enrolled=course_id, group='B')
+    students = Student.objects.filter(courses_enrolled=course_id, group='B')
+    form = StudentRubric()
 
-    return render(request, 'students_pp_b.html', {'course_pp_data': course_pp_data})
+    return render(request, 'students_pp_b.html', {'students': students,  'form': form})
 
+def students_list_ex_a(request):
+    course_id = 2  # Adjust the course ID as needed
+    students = Student.objects.filter(courses_enrolled=course_id, group='A')
+    form = StudentRubric()
+
+    return render(request, 'students_ex_a.html', {'students': students, 'form': form})
+
+def students_list_ex_b(request):
+    course_id = 2  # Adjust the course ID as needed
+    students = Student.objects.filter(courses_enrolled=course_id, group='B')
+    form = StudentRubric()
+
+    return render(request, 'students_ex_b.html', {'students': students, 'form': form})
+
+def students_list_ex_c(request):
+    course_id = 2  # Adjust the course ID as needed
+    students = Student.objects.filter(courses_enrolled=course_id, group='C')
+    form = StudentRubric()
+
+    return render(request, 'students_ex_c.html', {'students': students, 'form': form})
 
 # Eval student 
 def eval_student(request, student_id):

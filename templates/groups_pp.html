@@ -33,7 +33,7 @@
                 <h4 class="card-title">{{ group.group }}</h4>
                 {% if group.group == "A" %}
                     <a href="{% url 'students_list_pp_A' %}" class="btn btn-primary">Ver Estudiantes</a>
-                {% else %}
+                {% elif group.group == "B" %}
                     <a href="{% url 'students_list_pp_B' %}" class="btn btn-primary">Ver Estudiantes</a>
                 {% endif %}
             </div>

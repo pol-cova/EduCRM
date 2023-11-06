@@ -16,35 +16,33 @@
                 <div class="btn-group me-2">
                     <a href="{% url 'logout' %}" class="btn btn-sm btn-danger">Cerrar sesión</a>
                 </div>
+                <div class="btn-group me-2">
+                    <a href="{% url 'dashboard' %}" class="btn btn-sm btn-info">Elegir otro curso</a>
+                </div>
         </div>
     </main>
     <div class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
-        <h4>Lista de Cursos <span class="badge bg-warning">New</span></h4>
+        <h4>Lista de Grupos <span class="badge bg-warning">Excel</span></h4>
     </div>
-    {% if courses %}
+    {% for group in course_ex_data %}
     <div class="row  ms-sm-auto col-lg-12 px-md-4">
-        {% for course in courses %}
         <div class="col-md-4 mb-4">
             <div class="card">
             <div class="card-body">
-                <img src="https://s.yimg.com/ny/api/res/1.2/xfOTw.XT.QEvYSzwjv.ucg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTY0MDtoPTMyMA--/https://media.zenfs.com/es/qore_584/ddbaa20a663c657e736103af6d1a5d97" class="card-img-top" alt="students">
-                <h4 class="card-title">{{ course.title }}</h4>
-                {% if course.title == "PowerPoint" %}
-                    <a href="{% url 'grupos_pp' %}" class="btn btn-primary">Ver Grupos</a>
-                {% else %}
-                    <a href="{% url 'grupos_ex' %}" class="btn btn-primary">Ver Grupos</a>
+                <img src="https://img.freepik.com/vector-premium/feliz-grupo-estudiantes-universitarios-adolescentes-personaje-dibujos-animados-ilustracion_9026-113.jpg" class="card-img-top" alt="students">
+                <h4 class="card-title">{{ group.group }}</h4>
+                {% if group.group == "A" %}
+                    <a href="{% url 'students_list_ex_A' %}" class="btn btn-primary">Ver Estudiantes</a>
+                {% elif group.group == "B" %}
+                    <a href="{% url 'students_list_ex_B' %}" class="btn btn-primary">Ver Estudiantes</a>
+                {% elif group.group == "C" %}
+                <a href="{% url 'students_list_ex_C' %}" class="btn btn-primary">Ver Estudiantes</a>
                 {% endif %}
             </div>
             </div>
         </div>
-        {% endfor %}
     </div>
-    {% else %}
-    <p>No tienes cursos aún crea uno ahora!. <a href="{% url 'create_course' %}" class="btn btn-success">Create a Course</a></p>
-    {% endif %}
-    {% else %}
-    <a href="{% url 'login' %}">Login</a>
-    <a href="{% url 'signup' %}">Signup</a>
+    {% endfor %}
     {% endif %}
     {% endblock %}
 </body>
