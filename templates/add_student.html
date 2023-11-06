@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %} Alumno {% endblock %}
+{% block content %}
+<div class="container">
+    <h2>Add Student</h2>
+    <form method="post" class="form">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">Name:</label>
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">Last Name:</label>
+            {{ form.last_name }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.group.id_for_label }}">Group:</label>
+            {{ form.group }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.courses_enrolled.id_for_label }}">Courses Enrolled:</label>
+            {{ form.courses_enrolled }}
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+{% endblock %}

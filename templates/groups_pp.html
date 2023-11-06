@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %} Dashboard {% endblock %}
+<body class="content">
+    {% block content %}
+    {% if request.user.is_authenticated %}
+    <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Bienvenido | Mtro. {{request.user.username}}</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                    <a href="{% url 'add_student' %}" class="btn btn-sm btn-dark">Agregar estudiante</a>
+                </div>
+                <div class="btn-group me-2">
+                    <a href="{% url 'create_course' %}" class="btn btn-sm btn-success">Agregar curso</a>
+                </div>
+                <div class="btn-group me-2">
+                    <a href="{% url 'logout' %}" class="btn btn-sm btn-danger">Cerrar sesión</a>
+                </div>
+                <div class="btn-group me-2">
+                    <a href="{% url 'dashboard' %}" class="btn btn-sm btn-info">Elegir otro curso</a>
+                </div>
+        </div>
+    </main>
+    <div class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
+        <h4>Lista de Grupos <span class="badge bg-warning">PowerPoint</span></h4>
+    </div>
+    {% for group in course_pp_data %}
+    <div class="row  ms-sm-auto col-lg-12 px-md-4">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+            <div class="card-body">
+                <img src="https://img.freepik.com/vector-premium/feliz-grupo-estudiantes-universitarios-adolescentes-personaje-dibujos-animados-ilustracion_9026-113.jpg" class="card-img-top" alt="students">
+                <h4 class="card-title">{{ group.group }}</h4>
+                {% if group.group == "A" %}
+                    <a href="{% url 'students_list_pp_A' %}" class="btn btn-primary">Ver Estudiantes</a>
+                {% else %}
+                    <a href="{% url 'students_list_pp_B' %}" class="btn btn-primary">Ver Estudiantes</a>
+                {% endif %}
+            </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endblock %}
+</body>

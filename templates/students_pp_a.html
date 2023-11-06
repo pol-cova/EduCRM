@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %} Alumnos {% endblock %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+    <main class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Bienvenido | Mtro. {{request.user.username}}</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <div class="btn-group me-2">
+                    <a href="{% url 'add_student' %}" class="btn btn-sm btn-dark">Agregar estudiante</a>
+                </div>
+                <div class="btn-group me-2">
+                    <a href="{% url 'create_course' %}" class="btn btn-sm btn-success">Agregar curso</a>
+                </div>
+                <div class="btn-group me-2">
+                    <a href="{% url 'logout' %}" class="btn btn-sm btn-danger">Cerrar sesión</a>
+                </div>
+                <div class="btn-group me-2">
+                    <a href="{% url 'grupos_pp' %}" class="btn btn-sm btn-info">Elegir otro grupo</a>
+                </div>
+        </div>
+    </main>
+    <div class="col-md-9 ms-sm-auto col-lg-12 px-md-4">
+        <h4>Lista de Alumnos <span class="badge bg-success">Segundo A</span></h4>
+    </div>
+        <div class="card">
+            <div class="card-header"></div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Nombres</th>
+                            <th>Apellidos</th>
+                            <th>Evaluado</th>
+                            <th>Calificacion</th>
+                            <th>Rubrica</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for student in students %}
+                        <tr>
+                            <td>{{ student.name }}</td>
+                            <td>{{ student.last_name }}</td>
+                            <td>
+                                {% if student.status %}
+                                    <span class="text-success">✅</span>
+                                {% else %}
+                                    <span class="text-danger">❌</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ student.punctuation }}</td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal{{ student.id }}">Edit</button>
+                            </td>
+                        </tr>
+                        <div class="modal fade" id="myModal{{ student.id }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Evaluar estudiante: {{ student.name }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!-- Add your form here, customize as needed -->
+                                        <form action="{% url 'eval' student.id %}" method="post">
+                                            {% csrf_token %}
+                                            {% for field in form %}
+                                            <div class="form-group">
+                                                <label class="form-check-label">{{ field.label_tag }}</label>
+                                                {{ field }}
+                                                <br>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Guardar</button>
+                                        </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+ <!-- Include Bootstrap JS and jQuery (if needed) -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endif %}
+{% endblock %}
